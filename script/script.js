@@ -13,18 +13,26 @@ const loadVideo = () => {
     .then((Response) => Response.json())
     .then((data) => hendleVideo(data.videos));
 };
+const loadCatVid = (id) => {
+    console.log(id)
+    const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`
+    fetch(url)
+    .then(res => res.json())
+    .then(data => hendleVideo(data.category))
+};
 function hendleData(categories) {
   const container = document.getElementById("categoris-container"); //get container to append newly created element into it.
   for (let cat of categories) {
     //throw a for loop to access array of object of api
     const div = document.createElement("div");
     div.innerHTML = `
-        <button class="btn btn-sm px-5 hover:bg-red-600 hover:text-white">${cat.category}</button>`;
+        <button onclick="loadCatVid(${cat.category_id})" " class="btn btn-sm px-5 hover:bg-red-600 hover:text-white">${cat.category}</button>`;
     container.append(div);
   }
 }
 const hendleVideo = (videos) => {
   const videoContainer = document.getElementById("video-container");
+  videoContainer.innerHTML = '';
   videos.forEach((video) => {
     const div = document.createElement("div");
     div.innerHTML = `
@@ -55,4 +63,3 @@ const hendleVideo = (videos) => {
     videoContainer.append(div);
   });
 };
-loadVideo();
